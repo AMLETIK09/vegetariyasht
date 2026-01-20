@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вегетарий АСХТ - Заказ растений</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo" id="logo">
+                    <span class="logo-icon">🌱</span>
+                    <span class="logo-text">Вегетарий АСХТ</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home">Главная</a></li>
+                    <li><a href="#about">О нас</a></li>
+                    <li><a href="#vegetarium">Вегетарий</a></li>
+                    <li><a href="#cameras">Камеры</a></li>
+                    <li><a href="#order">Заказать</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Главная секция -->
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Выращиваем растения<br>по вашему заказу</h1>
+                <p class="hero-subtitle">Современный вегетарий с контролем качества и прозрачностью процесса<br>Мы — команда студентов и преподавателей техникума АСХТ</p>
+                <a href="#order" class="btn btn-primary">Сделать заказ</a>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <div class="scroll-indicator"></div>
+        </div>
+    </section>
+
+    <!-- О нас -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">О нас</h2>
+                <p class="section-subtitle">Команда профессионалов в области агротехнологий</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Мы — команда студентов и преподавателей техникума АСХТ, работающая над инновационным проектом вегетария. Наша цель — создать современную систему выращивания растений с использованием передовых технологий.</p>
+                    <p>В нашем вегетарии мы применяем методы гидропоники, контролируем микроклимат и обеспечиваем оптимальные условия для роста различных культур. Каждый заказ обрабатывается индивидуально, с учетом ваших пожеланий и требований.</p>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🌿</div>
+                            <h3>Экологично</h3>
+                            <p>Без использования вредных химикатов</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <h3>Контроль качества</h3>
+                            <p>Постоянный мониторинг условий выращивания</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🎓</div>
+                            <h3>Образовательный проект</h3>
+                            <p>Студенты получают практический опыт</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- О вегетарии -->
+    <section id="vegetarium" class="vegetarium">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Наш вегетарий</h2>
+                <p class="section-subtitle">Современные технологии для выращивания растений</p>
+            </div>
+            <div class="vegetarium-content">
+                <div class="vegetarium-image">
+                    <div class="image-placeholder">
+                        <span>📷</span>
+                        <p>Фото вегетария</p>
+                    </div>
+                </div>
+                <div class="vegetarium-text">
+                    <h3>Технологии и возможности</h3>
+                    <ul class="tech-list">
+                        <li>
+                            <strong>Гидропонные системы</strong>
+                            <p>Выращивание растений без почвы с использованием питательных растворов</p>
+                        </li>
+                        <li>
+                            <strong>Автоматический контроль климата</strong>
+                            <p>Поддержание оптимальной температуры, влажности и освещения</p>
+                        </li>
+                        <li>
+                            <strong>Система мониторинга</strong>
+                            <p>Видеонаблюдение и датчики для контроля состояния растений</p>
+                        </li>
+                        <li>
+                            <strong>Индивидуальный подход</strong>
+                            <p>Выращивание растений по вашему заказу в нужном количестве</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Видео камеры -->
+    <section id="cameras" class="cameras">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Онлайн трансляция</h2>
+                <p class="section-subtitle">Наблюдайте за процессом выращивания в реальном времени</p>
+            </div>
+            <div class="cameras-grid">
+                <div class="camera-card">
+                    <h3 class="camera-title">Камера 1</h3>
+                    <div class="camera-container">
+                        <div class="video-placeholder" id="camera1">
+                            <div class="video-overlay">
+                                <span class="play-icon">▶</span>
+                                <p>Подключение к камере...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="camera-description">Общий вид вегетария</p>
+                </div>
+                <div class="camera-card">
+                    <h3 class="camera-title">Камера 2</h3>
+                    <div class="camera-container">
+                        <div class="video-placeholder" id="camera2">
+                            <div class="video-overlay">
+                                <span class="play-icon">▶</span>
+                                <p>Подключение к камере...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="camera-description">Зона выращивания растений</p>
+                </div>
+                <div class="camera-card">
+                    <h3 class="camera-title">Камера 3</h3>
+                    <div class="camera-container">
+                        <div class="video-placeholder" id="camera3">
+                            <div class="video-overlay">
+                                <span class="play-icon">▶</span>
+                                <p>Подключение к камере...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="camera-description">Система контроля и мониторинга</p>
+                </div>
+            </div>
+            <div class="camera-instructions">
+                <p><strong>Примечание:</strong> Для подключения реальных камер нужно указать URL потоков в файле <code>script.js</code> в переменных <code>cameraUrls</code></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма заказа -->
+    <section id="order" class="order">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Заказать растения</h2>
+                <p class="section-subtitle">Заполните форму, и мы свяжемся с вами для уточнения деталей</p>
+            </div>
+            <form class="order-form" id="orderForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Ваше имя *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Телефон *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Количество растений *</label>
+                        <input type="number" id="quantity" name="quantity" min="1" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="plantType">Тип растения *</label>
+                    <select id="plantType" name="plantType" required>
+                        <option value="">Выберите тип растения</option>
+                        <option value="vegetables">Овощи (томаты, огурцы, перец)</option>
+                        <option value="greens">Зелень (салат, базилик, петрушка)</option>
+                        <option value="herbs">Травы (мята, розмарин, тимьян)</option>
+                        <option value="flowers">Цветы</option>
+                        <option value="other">Другое (указать в комментарии)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="specificPlant">Конкретное растение (если известно)</label>
+                    <input type="text" id="specificPlant" name="specificPlant" placeholder="Например: томаты черри, базилик фиолетовый">
+                </div>
+                <div class="form-group">
+                    <label for="deadline">Желаемый срок готовности</label>
+                    <input type="date" id="deadline" name="deadline">
+                </div>
+                <div class="form-group">
+                    <label for="comments">Дополнительные пожелания и комментарии</label>
+                    <textarea id="comments" name="comments" rows="4" placeholder="Укажите любые особые требования или пожелания..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-submit">Отправить заказ</button>
+            </form>
+            <div class="form-success" id="formSuccess" style="display: none;">
+                <div class="success-icon">✓</div>
+                <h3>Заказ успешно отправлен!</h3>
+                <p>Мы получили ваш заказ и свяжемся с вами в ближайшее время для уточнения деталей.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Вегетарий АСХТ</h3>
+                    <p>Современные технологии выращивания растений</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p>Техникум АСХТ</p>
+                    <p>Email: vegetarium@asht.ru</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Режим работы</h4>
+                    <p>Пн-Пт: 9:00 - 18:00</p>
+                    <p>Сб-Вс: Выходной</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Вегетарий АСХТ. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Декоративные ветки роз -->
+    <div class="rose-branch rose-branch-left">
+        <svg viewBox="0 0 200 800" preserveAspectRatio="xMidYMin meet">
+            <!-- Стебель -->
+            <path d="M 100 0 Q 80 150 85 250 Q 75 350 80 450 Q 75 550 85 650 Q 90 750 100 800" 
+                  stroke="#4a7c59" 
+                  stroke-width="8" 
+                  fill="none" 
+                  stroke-linecap="round"/>
+            <!-- Листья -->
+            <ellipse cx="75" cy="200" rx="25" ry="40" fill="#2d5a3d" transform="rotate(-25 75 200)"/>
+            <ellipse cx="110" cy="350" rx="25" ry="40" fill="#2d5a3d" transform="rotate(25 110 350)"/>
+            <ellipse cx="75" cy="500" rx="25" ry="40" fill="#2d5a3d" transform="rotate(-25 75 500)"/>
+            <ellipse cx="110" cy="650" rx="25" ry="40" fill="#2d5a3d" transform="rotate(25 110 650)"/>
+            <!-- Розы -->
+            <circle cx="70" cy="150" r="20" fill="#d63384" opacity="0.9"/>
+            <circle cx="70" cy="150" r="15" fill="#e91e63"/>
+            <circle cx="75" cy="145" r="8" fill="#fff" opacity="0.6"/>
+            <circle cx="90" cy="400" r="22" fill="#c2185b" opacity="0.9"/>
+            <circle cx="90" cy="400" r="17" fill="#ad1457"/>
+            <circle cx="95" cy="395" r="9" fill="#fff" opacity="0.6"/>
+            <circle cx="70" cy="600" r="20" fill="#d63384" opacity="0.9"/>
+            <circle cx="70" cy="600" r="15" fill="#e91e63"/>
+            <circle cx="75" cy="595" r="8" fill="#fff" opacity="0.6"/>
+        </svg>
+    </div>
+    <div class="rose-branch rose-branch-right">
+        <svg viewBox="0 0 200 800" preserveAspectRatio="xMidYMin meet">
+            <!-- Стебель -->
+            <path d="M 100 0 Q 120 150 115 250 Q 125 350 120 450 Q 125 550 115 650 Q 110 750 100 800" 
+                  stroke="#4a7c59" 
+                  stroke-width="8" 
+                  fill="none" 
+                  stroke-linecap="round"/>
+            <!-- Листья -->
+            <ellipse cx="125" cy="200" rx="25" ry="40" fill="#2d5a3d" transform="rotate(25 125 200)"/>
+            <ellipse cx="90" cy="350" rx="25" ry="40" fill="#2d5a3d" transform="rotate(-25 90 350)"/>
+            <ellipse cx="125" cy="500" rx="25" ry="40" fill="#2d5a3d" transform="rotate(25 125 500)"/>
+            <ellipse cx="90" cy="650" rx="25" ry="40" fill="#2d5a3d" transform="rotate(-25 90 650)"/>
+            <!-- Розы -->
+            <circle cx="130" cy="150" r="20" fill="#d63384" opacity="0.9"/>
+            <circle cx="130" cy="150" r="15" fill="#e91e63"/>
+            <circle cx="125" cy="145" r="8" fill="#fff" opacity="0.6"/>
+            <circle cx="110" cy="400" r="22" fill="#c2185b" opacity="0.9"/>
+            <circle cx="110" cy="400" r="17" fill="#ad1457"/>
+            <circle cx="105" cy="395" r="9" fill="#fff" opacity="0.6"/>
+            <circle cx="130" cy="600" r="20" fill="#d63384" opacity="0.9"/>
+            <circle cx="130" cy="600" r="15" fill="#e91e63"/>
+            <circle cx="125" cy="595" r="8" fill="#fff" opacity="0.6"/>
+        </svg>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

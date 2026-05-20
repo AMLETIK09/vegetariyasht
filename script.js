@@ -71,58 +71,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Обработка формы заказа
-const orderForm = document.getElementById('orderForm');
-const formSuccess = document.getElementById('formSuccess');
-
-if (orderForm) {
-    orderForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        // Собираем данные формы
-        const formData = {
-            name: document.getElementById('name').value,
-            phone: document.getElementById('phone').value,
-            email: document.getElementById('email').value,
-            quantity: document.getElementById('quantity').value,
-            plantType: document.getElementById('plantType').value,
-            specificPlant: document.getElementById('specificPlant').value,
-            deadline: document.getElementById('deadline').value,
-            comments: document.getElementById('comments').value,
-            timestamp: new Date().toISOString()
-        };
-
-        // В реальном приложении здесь был бы запрос к серверу
-        // Для демонстрации сохраняем в localStorage и показываем успех
-        try {
-            // Сохраняем заказ в localStorage (в реальном приложении отправляем на сервер)
-            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-            orders.push(formData);
-            localStorage.setItem('orders', JSON.stringify(orders));
-
-            // Показываем сообщение об успехе
-            orderForm.style.display = 'none';
-            formSuccess.style.display = 'block';
-
-            // Прокручиваем к сообщению об успехе
-            formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-            // Можно также отправить данные на сервер:
-            // const response = await fetch('/api/orders', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(formData)
-            // });
-            // const result = await response.json();
-
-            console.log('Заказ сохранен:', formData);
-        } catch (error) {
-            console.error('Ошибка при сохранении заказа:', error);
-            alert('Произошла ошибка при отправке заказа. Пожалуйста, попробуйте еще раз.');
-        }
-    });
-}
-
 // Настройка видео камер
 // ВАЖНО: Замените эти URL на реальные адреса ваших камер
 const cameraUrls = {

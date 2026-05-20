@@ -177,58 +177,17 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Заказать растения</h2>
-                <p class="section-subtitle">Заполните форму, и мы свяжемся с вами для уточнения деталей</p>
+                <p class="section-subtitle">Заполните заказ через VK-бота — быстро, удобно и стильно.</p>
             </div>
-            <form class="order-form" id="orderForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="name">Ваше имя *</label>
-                        <input type="text" id="name" name="name" required>
+            <div class="order-card">
+                <div class="order-card-content">
+                    <div>
+                        <h3>Закажите растения через VK-бота</h3>
+                        <p>Мы соберём все данные в удобном пошаговом диалоге: имя, телефон, email, количество и тип растений, конкретную культуру и желаемый срок готовности.</p>
+                        <p>Нажмите кнопку и продолжите оформление прямо в VK — без длинных форм на сайте.</p>
                     </div>
-                    <div class="form-group">
-                        <label for="phone">Телефон *</label>
-                        <input type="tel" id="phone" name="phone" required>
-                    </div>
+                    <a class="btn btn-vk" href="https://vk.me/vegetariy_asht_bot" target="_blank" rel="noopener noreferrer">Оформить заказ в VK</a>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="email">Email *</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="quantity">Количество растений *</label>
-                        <input type="number" id="quantity" name="quantity" min="1" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="plantType">Тип растения *</label>
-                    <select id="plantType" name="plantType" required>
-                        <option value="">Выберите тип растения</option>
-                        <option value="vegetables">Овощи (томаты, огурцы, перец)</option>
-                        <option value="greens">Зелень (салат, базилик, петрушка)</option>
-                        <option value="herbs">Травы (мята, розмарин, тимьян)</option>
-                        <option value="flowers">Цветы</option>
-                        <option value="other">Другое (указать в комментарии)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="specificPlant">Конкретное растение (если известно)</label>
-                    <input type="text" id="specificPlant" name="specificPlant" placeholder="Например: томаты черри, базилик фиолетовый">
-                </div>
-                <div class="form-group">
-                    <label for="deadline">Желаемый срок готовности</label>
-                    <input type="date" id="deadline" name="deadline">
-                </div>
-                <div class="form-group">
-                    <label for="comments">Дополнительные пожелания и комментарии</label>
-                    <textarea id="comments" name="comments" rows="4" placeholder="Укажите любые особые требования или пожелания..."></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary btn-submit">Отправить заказ</button>
-            </form>
-            <div class="form-success" id="formSuccess" style="display: none;">
-                <div class="success-icon">✓</div>
-                <h3>Заказ успешно отправлен!</h3>
-                <p>Мы получили ваш заказ и свяжемся с вами в ближайшее время для уточнения деталей.</p>
             </div>
         </div>
     </section>

@@ -1,0 +1,19 @@
+{
+  "name": "vegetariy-vk-bot",
+  "version": "1.0.0",
+  "description": "VK bot для оформления заказов Вегетария АСХТ с MongoDB",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "mongoose": "^7.7.0",
+    "vk-io": "^6.4.0",
+    "winston": "^3.9.0"
+  }
+}

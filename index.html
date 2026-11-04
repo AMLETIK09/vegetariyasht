@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USAF — United States Air Force | San-Andreas National Guard</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a120e;--bg2:#0f2a1a;--bg3:#1a3c2a;--card:#12241a;--border:#2a4a35;--gold:#c9a227;--gold2:#8b9a6b;--text:#e8f0e8;--muted:#8fa88f;--accent:#3d7a4f;--radius:6px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.45;font-size:14px;background-image:radial-gradient(ellipse at 20% 0%,rgba(26,60,42,.4) 0%,transparent 50%),radial-gradient(ellipse at 80% 100%,rgba(15,42,26,.5) 0%,transparent 40%);min-height:100vh}
+h1,h2,h3,h4{font-family:'Oswald',sans-serif;letter-spacing:.04em;font-weight:600}
+a{color:var(--gold);text-decoration:none}a:hover{color:#e0c050}
+.header{position:sticky;top:0;z-index:1000;background:linear-gradient(180deg,#0d1f15,#0a160f);border-bottom:2px solid var(--gold);box-shadow:0 4px 20px rgba(0,0,0,.6)}
+.header-top{display:flex;align-items:center;gap:16px;padding:10px 20px;max-width:1400px;margin:0 auto}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;color:var(--gold);white-space:nowrap;flex-shrink:0}
+.logo svg{width:36px;height:36px;fill:var(--gold)}
+.search-wrap{flex:1;position:relative}
+.search-wrap input{width:100%;padding:10px 16px 10px 42px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:14px;outline:none}
+.search-wrap input:focus{border-color:var(--gold)}
+.search-wrap input::placeholder{color:var(--muted)}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+#search-results{display:none;position:absolute;top:100%;left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);max-height:360px;overflow-y:auto;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+#search-results .sr-item{padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;gap:10px;align-items:center}
+#search-results .sr-item:hover{background:var(--bg3)}
+#search-results .sr-tag{font-size:11px;background:var(--bg2);color:var(--gold2);padding:2px 6px;border-radius:3px;flex-shrink:0}
+.nav{display:flex;flex-wrap:wrap;gap:2px;padding:0 20px 8px;max-width:1400px;margin:0 auto;overflow-x:auto}
+.nav a{padding:6px 12px;font-size:12px;font-weight:600;color:var(--muted);border-radius:4px;white-space:nowrap;text-transform:uppercase;letter-spacing:.03em;transition:all .15s}
+.nav a:hover,.nav a.active{background:var(--bg3);color:var(--gold)}
+.main{max-width:1400px;margin:0 auto;padding:20px}
+.section{display:none;animation:fadeIn .25s ease}.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.section-title{font-size:22px;color:var(--gold);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.section-title::before{content:'';width:4px;height:22px;background:var(--gold);border-radius:2px}
+.home-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}
+@media(max-width:900px){.home-grid{grid-template-columns:1fr}}
+.gallery{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;position:relative;min-height:380px}
+.gallery img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+.home-right{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;gap:14px}
+.motto{font-family:'Oswald',sans-serif;font-size:20px;color:var(--gold);text-align:center;letter-spacing:.08em}
+.hymn-box{background:var(--bg2);border-left:3px solid var(--gold);padding:12px 14px;font-size:13px;color:var(--muted);max-height:220px;overflow-y:auto;line-height:1.5}
+.desc-box{font-size:13px;color:var(--text);border-top:1px solid var(--border);padding-top:12px}
+.audio-player audio{width:100%;height:32px}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.pos-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .2s;display:flex;flex-direction:column}
+.pos-card:hover{border-color:var(--gold);box-shadow:0 0 16px rgba(201,162,39,.25);transform:translateY(-2px)}
+.pos-card .imgs{display:grid;grid-template-columns:1fr 1fr;height:110px;background:#0a0a0a}
+.pos-card .imgs.single{grid-template-columns:1fr}
+.pos-card .imgs img{width:100%;height:100%;object-fit:cover}
+.pos-card .name{padding:10px 12px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;text-align:center;color:var(--text)}
+.modal-overlay{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.85);align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--gold);border-radius:8px;max-width:900px;width:100%;max-height:90vh;overflow-y:auto;position:relative}
+.modal-close{position:absolute;top:10px;right:14px;font-size:28px;color:var(--muted);cursor:pointer;z-index:2;line-height:1}
+.modal-close:hover{color:var(--gold)}
+.modal-title{padding:16px 20px 10px;font-size:20px;color:var(--gold);border-bottom:1px solid var(--border)}
+.modal-imgs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px}
+.modal-imgs.single{grid-template-columns:1fr}
+.modal-imgs img{width:100%;height:auto;max-height:480px;object-fit:contain;background:#000}
+@media(max-width:700px){.modal-imgs{grid-template-columns:1fr}.pos-card .imgs{height:90px}}
+.table-wrap{overflow-x:auto;margin-bottom:16px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:8px 12px;border:1px solid var(--border);text-align:left}
+th{background:var(--bg3);color:var(--gold);font-family:'Oswald',sans-serif;font-weight:500;text-transform:uppercase;font-size:12px;letter-spacing:.04em}
+tr:nth-child(even){background:rgba(26,60,42,.25)}tr:hover{background:rgba(26,60,42,.4)}
+.info-block{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px}
+.info-block h3{color:var(--gold);font-size:15px;margin-bottom:8px}
+.info-block ul,.info-block ol{padding-left:18px}.info-block li{margin-bottom:4px}
+.badge{display:inline-block;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:600;margin-right:4px}
+.badge-gold{background:rgba(201,162,39,.2);color:var(--gold);border:1px solid var(--gold)}
+.badge-green{background:rgba(61,122,79,.25);color:#7dba90;border:1px solid var(--accent)}
+.badge-red{background:rgba(170,50,50,.25);color:#e88;border:1px solid #a33}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:800px){.two-col{grid-template-columns:1fr}}
+.acc-item{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:6px;overflow:hidden}
+.acc-head{padding:10px 14px;background:var(--bg2);cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:13px;transition:background .15s}
+.acc-head:hover{background:var(--bg3)}
+.acc-head .arrow{color:var(--gold);transition:transform .2s;font-size:12px;flex-shrink:0;margin-left:8px}
+.acc-item.open .acc-head .arrow{transform:rotate(90deg)}
+.acc-body{display:none;padding:12px 14px;background:var(--card);font-size:13px;border-top:1px solid var(--border);line-height:1.5;white-space:pre-wrap}
+.acc-item.open .acc-body{display:block}
+.rule-card{background:var(--card);border-left:3px solid var(--gold);padding:12px 14px;margin-bottom:10px;border-radius:0 var(--radius) var(--radius) 0}
+.rule-card h4{color:var(--gold);margin-bottom:4px;font-size:14px}
+.footer{margin-top:40px;padding:20px;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:12px;letter-spacing:.05em}
+.footer strong{color:var(--gold)}
+.rank-note{background:rgba(201,162,39,.08);border:1px solid rgba(201,162,39,.3);padding:10px 14px;border-radius:var(--radius);margin-bottom:14px;font-size:13px}
+.uk-nav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.uk-nav a{padding:5px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;font-size:12px;color:var(--muted);cursor:pointer}
+.uk-nav a:hover,.uk-nav a.active{border-color:var(--gold);color:var(--gold)}
+.warning{background:rgba(170,50,50,.15);border:1px solid #a33;padding:10px 14px;border-radius:var(--radius);margin:10px 0;color:#eaa}
+.code-search{margin-bottom:12px}
+.code-search input{width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:13px}
+.code-content{max-height:70vh;overflow-y:auto}
+.config-img{width:100%;max-width:900px;border-radius:var(--radius);border:1px solid var(--border);margin-top:10px}
+.loading{color:var(--muted);padding:20px;text-align:center}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-top">
+    <div class="logo"><svg viewBox="0 0 64 64"><path d="M32 4 L36 20 L52 16 L40 28 L56 36 L38 36 L36 52 L32 40 L28 52 L26 36 L8 36 L24 28 L12 16 L28 20 Z"/></svg> USAF</div>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="search" id="global-search" placeholder="Поиск по статьям УК, позициям, уставам, рангам..." autocomplete="off">
+      <div id="search-results"></div>
+    </div>
+  </div>
+  <nav class="nav" id="main-nav">
+    <a href="#home" data-sec="home" class="active">Главная</a>
+    <a href="#positions" data-sec="positions">Позиции / Территория</a>
+    <a href="#ranks" data-sec="ranks">Система повышения</a>
+    <a href="#flight-exam" data-sec="flight-exam">Лётный экзамен</a>
+    <a href="#fight" data-sec="fight">Правила файта</a>
+    <a href="#uk" data-sec="uk">Уголовный кодекс</a>
+    <a href="#ethical" data-sec="ethical">Этический кодекс</a>
+    <a href="#labor" data-sec="labor">Трудовой кодекс</a>
+    <a href="#admin" data-sec="admin">Админ. кодекс</a>
+    <a href="#ustav" data-sec="ustav">Уставы SANG</a>
+    <a href="#hierarchy" data-sec="hierarchy">Обязанности</a>
+    <a href="#useful" data-sec="useful">Полезное</a>
+  </nav>
+</header>
+<main class="main">
+<section id="home" class="section active">
+  <div class="home-grid">
+    <div class="gallery"><img src="assets/poster.jpg" alt="USAF"></div>
+    <div class="home-right">
+      <div class="motto">AIM HIGH. FLY-FIGHT-WIN</div>
+      <div class="hymn-box"><strong style="color:var(--gold)">Гимн USAF</strong><br><br>
+        На позициях смотрим сверху, где-то тяга особо чистые, пока тихо.<br>
+        Вертики зафулены, все на ангар один стояли, теперь в небе ЮВСАЭ вовсегда на скауте.<br>
+        Вертики в небе, кол все на ангар один, скаут над Кета.<br>
+        Край мне игру пойзя, холп прозвучал, вертики жутут топливо. Ангар один полный, винты уже воют.<br>
+        Слетаем пачкой, режем небо над ФС, скаутим дорогу и видим костер. Край поставил костер прямо на трассе в рацию орём.<br>
+        Сверху заходим поливать. Каем огнём, каем разъёбан, материалы прошли...<br>
+        Когда костёр зажигают по-настоящему, санги все вместе уходят в респ, а краем забирает то, что хотел.<br>
+        Вертики в небе, холпсен на ангар один, скаут над гета, костёр уже вижу.</div>
+      <div class="audio-player"><audio controls src="assets/hymn.mp3"></audio></div>
+      <div class="desc-box"><strong style="color:var(--gold)">United States Air Force</strong> — элитное авиационное подразделение San-Andreas National Guard. Воздушное превосходство, поддержка поставок, разведка, быстрое реагирование.</div>
+    </div>
+  </div>
+</section>
+<section id="positions" class="section">
+  <h2 class="section-title">Позиции на поставке / Экзамен по территории</h2>
+  <p style="margin-bottom:14px;color:var(--muted)">Все ключевые точки. Карточка = карта сверху + вид с вертолёта. Для «Особы» — отдельная карточка на каждую локацию. Клик — увеличить.</p>
+  <div class="cards-grid" id="pos-grid"><div class="loading">Загрузка позиций...</div></div>
+</section>
+<section id="ranks" class="section">
+  <h2 class="section-title">Система повышения и ранги</h2>
+  <div class="rank-note"><strong>ВАЖНО:</strong> Баллы сгорают после повышения · Повышение — 1 раз в сутки · В отчёте минимум 30% поставок · Остаток не переносится · С 4 на 5 — ссылка на внутренний экзамен</div>
+  <div class="info-block"><h3>Таблица рангов</h3>
+    <div class="table-wrap"><table><thead><tr><th>Текущий → Новый</th><th>Баллы</th><th>Условия</th></tr></thead>
+    <tbody>
+      <tr><td>3 → 4</td><td>200</td><td>+ внутренний экзамен по стрельбе</td></tr>
+      <tr><td>4 → 5</td><td>250</td><td>+ внутренний экзамен</td></tr>
+      <tr><td>5 → 6</td><td>300</td><td>—</td></tr><tr><td>6 → 7</td><td>350</td><td>—</td></tr>
+      <tr><td>7 → 8</td><td>400</td><td>—</td></tr><tr><td>8 → 9</td><td>450</td><td>—</td></tr>
+      <tr><td>9 → 10</td><td>500</td><td>—</td></tr><tr><td>10 → 11</td><td>на усмотрение</td><td>+ обзвон</td></tr>
+    </tbody></table></div>
+  </div>
+  <div class="two-col">
+    <div class="info-block"><h3>Основные действия (баллы)</h3>
+      <ul>
+        <li><span class="badge badge-gold">25</span> Поставка</li>
+        <li><span class="badge badge-gold">75</span> Дельная идея</li>
+        <li><span class="badge badge-gold">30</span> Патруль / 1 час</li>
+        <li><span class="badge badge-gold">10</span> Отбитие бизнеса</li>
+        <li><span class="badge badge-gold">15</span> Тренировка (ГГ)</li>
+        <li><span class="badge badge-gold">15</span> ОКП/ОФЗ участие · <span class="badge badge-gold">30</span> отбитие</li>
+        <li><span class="badge badge-gold">30</span> Отбитие перекрытия на поставке</li>
+        <li><span class="badge badge-gold">25</span> Участие в МП</li>
+      </ul>
+    </div>
+    <div class="info-block"><h3>Баллы инструкторов</h3>
+      <ul>
+        <li><span class="badge badge-green">15</span> Проверка отчёта</li>
+        <li><span class="badge badge-green">40</span> Активности (от 5 чел.)</li>
+        <li><span class="badge badge-green">50</span> Комплектование (за 1 чел.)</li>
+        <li><span class="badge badge-green">30</span> Внутренний экзамен</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section id="flight-exam" class="section">
+  <h2 class="section-title">Лётный экзамен</h2>
+  <div class="info-block"><h3>Время</h3><ul><li><strong>13 мин</strong> — открытый dimension</li><li><strong>15 мин</strong> — тест-драйв</li></ul></div>
+  <div class="info-block"><h3>Правила</h3>
+    <ul><li>Касания разрешены; дым/взрыв — аннулирование</li><li>КД пересдачи: <strong>12 часов</strong></li><li>Запись: ⁠╏🚁・запись-на-летный-экзамен</li></ul>
+    <div class="warning">После сдачи — лётная лицензия.</div>
+  </div>
+  <div class="info-block"><h3>Что уметь</h3>
+    <ul><li>Повороты · Узкие места · Мягкий взлёт/посадка · Манёвры · Экстренное торможение</li></ul>
+    <p style="margin-top:8px"><a href="https://youtu.be/JCKOfohqLew" target="_blank">▶ Видео маршрута</a></p>
+  </div>
+</section>
+<section id="fight" class="section">
+  <h2 class="section-title">Правила файта и стрельбы</h2>
+  <div class="rule-card"><h4>1. Пик правым плечом</h4><p>Базовое правило боя.</p></div>
+  <div class="rule-card"><h4>2. CTRL + бинд</h4><p>Пик с CTRL + бинд в настройках.</p></div>
+  <div class="rule-card"><h4>3. Выбор оружия</h4><p>Под цели операции.</p></div>
+  <div class="rule-card"><h4>4. Хевик</h4><p><span class="badge badge-red">ЗАПРЕЩЁН</span> на всех мероприятиях и при нападении на КО.</p></div>
+  <div class="rule-card"><h4>5. Оборона ФЗ / острова</h4><p><span class="badge badge-red">ЗАПРЕЩЁН</span> тепловизор.</p></div>
+  <div class="rule-card"><h4>6. Стрельба на поставках</h4><p>Пока едет матка — никто не останавливается/не выходит. Только по коллу старшего. Машины — <strong>боком</strong>.</p></div>
+  <div class="rule-card"><h4>7. Свап броника</h4><p>Бинт + броник.</p></div>
+  <div class="info-block"><p>После объяснения: <strong>«Сдал экзамен по стрельбе.»</strong></p></div>
+</section>
+<section id="uk" class="section">
+  <h2 class="section-title">Уголовный кодекс штата San-Andreas</h2>
+  <div class="code-search"><input type="search" id="uk-search" placeholder="Поиск по УК..." oninput="filterCode('uk',this.value)"></div>
+  <div class="code-content" id="uk-content"><div class="loading">Откройте раздел — загрузится полный текст</div></div>
+</section>
+<section id="ethical" class="section">
+  <h2 class="section-title">Этический кодекс штата San-Andreas</h2>
+  <div class="code-search"><input type="search" id="ethical-search" placeholder="Поиск..." oninput="filterCode('ethical',this.value)"></div>
+  <div class="code-content" id="ethical-content"><div class="loading">Откройте раздел</div></div>
+</section>
+<section id="labor" class="section">
+  <h2 class="section-title">Трудовой кодекс штата San-Andreas</h2>
+  <div class="code-search"><input type="search" id="labor-search" placeholder="Поиск..." oninput="filterCode('labor',this.value)"></div>
+  <div class="code-content" id="labor-content"><div class="loading">Откройте раздел</div></div>
+</section>
+<section id="admin" class="section">
+  <h2 class="section-title">Кодекс об административных правонарушениях</h2>
+  <div class="code-search"><input type="search" id="admin-search" placeholder="Поиск..." oninput="filterCode('admin',this.value)"></div>
+  <div class="code-content" id="admin-content"><div class="loading">Откройте раздел</div></div>
+</section>
+<section id="ustav" class="section">
+  <h2 class="section-title">Уставы San-Andreas National Guard</h2>
+  <div class="uk-nav" id="ustav-nav">
+    <a class="active" data-ustav="vnutr" onclick="showUstav('vnutr')">Устав внутренней службы</a>
+    <a data-ustav="disc" onclick="showUstav('disc')">Дисциплинарный устав</a>
+    <a data-ustav="karaul" onclick="showUstav('karaul')">Устав караульной службы</a>
+  </div>
+  <div class="code-search"><input type="search" id="ustav-search" placeholder="Поиск по уставу..." oninput="filterUstav(this.value)"></div>
+  <div class="code-content" id="ustav-content"><div class="loading">Откройте раздел</div></div>
+</section>
+<section id="hierarchy" class="section">
+  <h2 class="section-title">Обязанности и иерархия USAF</h2>
+  <div class="info-block"><h3>COMMANDER</h3><ol>
+    <li>Наблюдение и корректирование работы отдела</li>
+    <li>Организация построений</li>
+    <li>Редактирование работы отдела</li>
+    <li>Контроль конфликтов</li>
+    <li>Управление старшим составом</li>
+    <li>Вечернее построение — доклад</li>
+  </ol></div>
+  <div class="info-block"><h3>DEPUTY COMMANDER</h3><ol>
+    <li>Следить за инструкторами</li>
+    <li>Реагирование на указания Commander</li>
+    <li>Надзор за личным составом</li>
+    <li>Проведение мероприятий</li>
+    <li>Помощь инструкторам</li>
+    <li>Контроль ВУ, ДУ, УК, АК, ДК, ТК</li>
+    <li>Заявления на перевод</li>
+    <li>Внутренние экзамены</li>
+  </ol></div>
+  <div class="info-block"><h3>INSTRUCTOR</h3><ol>
+    <li>Проверка отчётов на повышение</li>
+    <li>Проверка заявок в отдел</li>
+    <li>Реагирование на вопросы</li>
+    <li>Проведение мероприятий</li>
+    <li>Помощь составу</li>
+    <li>Лётные тренировки и экзамены</li>
+    <li>Агитация</li>
+  </ol></div>
+</section>
+<section id="useful" class="section">
+  <h2 class="section-title">Полезное</h2>
+  <div class="info-block">
+    <h3>Конфиг управления вертолётом</h3>
+    <p>Хороший конфиг позволяет быстрее летать, останавливаться, выполнять манёвры и освобождает одну руку для обзора.</p>
+    <img src="assets/heli-config.jpg" alt="Конфиг вертолёта" class="config-img">
+  </div>
+  <div class="info-block"><h3>Каналы</h3>
+    <ul>
+      <li>Запись на лётный экзамен: <code>╏🚁・запись-на-летный-экзамен</code></li>
+      <li>Запрос в USAF: <code>╏👥・запрос-в-usaf</code></li>
+      <li>Отчёты: <code>╏📗・отчёты-на-повышение</code></li>
+      <li><a href="https://youtu.be/JCKOfohqLew" target="_blank">Видео маршрута</a></li>
+    </ul>
+  </div>
+  <div class="info-block"><h3>Принципы</h3>
+    <p style="color:var(--gold)">Честь · Дисциплина · Профессионализм · Ответственность · Верность присяге · Взаимное уважение</p>
+    <p style="margin-top:8px"><strong>AIM HIGH. FLY-FIGHT-WIN</strong></p>
+  </div>
+</section>
+</main>
+<footer class="footer"><strong>United States Air Force</strong> • San-Andreas National Guard • AIM HIGH. FLY-FIGHT-WIN</footer>
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <span class="modal-close" onclick="closeModal()">×</span>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-imgs" id="modal-imgs"></div>
+  </div>
+</div>
+<script src="data/positions.js"></script>
+<script src="data/uk.js"></script>
+<script src="data/ethical.js"></script>
+<script src="data/labor.js"></script>
+<script src="data/admin.js"></script>
+<script src="data/karaul.js"></script>
+<script src="data/vnutr.js"></script>
+<script src="data/disc.js"></script>
+<script>
+const sections=document.querySelectorAll('.section'),navLinks=document.querySelectorAll('#main-nav a');
+function showSection(id){
+  sections.forEach(s=>s.classList.remove('active'));
+  navLinks.forEach(a=>a.classList.remove('active'));
+  const sec=document.getElementById(id);if(sec)sec.classList.add('active');
+  const link=document.querySelector('#main-nav a[data-sec="'+id+'"]');if(link)link.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='uk')renderCode('uk',window.CODE_UK);
+  if(id==='ethical')renderCode('ethical',window.CODE_ETHICAL);
+  if(id==='labor')renderCode('labor',window.CODE_LABOR);
+  if(id==='admin')renderCode('admin',window.CODE_ADMIN);
+  if(id==='ustav')showUstav(currentUstav);
+}
+navLinks.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();showSection(a.dataset.sec)}));
+
+const osobyNames={'am.jpg':'Особы — АМ','amnyamy.jpg':'Особы — Амнямы','lkn.jpg':'Особы — ЛКН','meksy.jpg':'Особы — Мексы','richmany.jpg':'Особы — Ричманы','hz-che-eto.jpg':'Особы — (доп.)'};
+const rename={'1 - АМФИК':'1 — Амфик','2-Амфик':'2 — Амфик','3 репаир':'3 — Репаир','3 церковь':'3 — Церковь','5 ДРИФТ':'5 — Дрифт','7ГШ':'7 — ГШ','9 гш':'9 — ГШ','11 АЗС Карта':'11 — АЗС','12 АРЕНДА':'12 — Аренда','20 АРЕНДА':'20 — Аренда','2 ТАТУ':'2 — ТАТУ','АЗС 1':'1 — АЗС','АНГАР УЗИ':'Ангар УЗИ','АРЕНДА ЛОДОК':'Аренда лодок','ДИНОЗАВРИК':'Динозаврик','ЗЕЛЕНЫЙ МОСТ':'Зелёный мост','КРАСНЫЙ МОСТ':'Красный мост','МОСТ ВЗМ':'Мост ВЗМ','МОСТ МАРА':'Мост Мара','РЫБКА':'Рыбка','СИСЬКИ':'Сиськи','ТВ':'ТВ','ТРЕУГОЛЬНИКИ':'Треугольники','ТРОПА ФИБ':'Тропа ФИБ','ТШКА':'Тшка','ЦЕРКОВЬ 1':'Церковь-1','ЧУМАШ':'Чумаш','буквы':'Буквы','сэндик':'Сэндик','теплицы':'Теплицы','КАБЛУК':'Каблук'};
+let positionsList=[];
+function buildPosCards(){
+  const list=[];
+  (window.POSITIONS||[]).forEach(p=>{
+    if(p.id==='osoby'&&p.extra){
+      p.extra.forEach(f=>{
+        if((f||'').toLowerCase().includes('hz-che'))return;
+        list.push({id:'osoby-'+f,name:osobyNames[f]||('Особы — '+f.replace(/\.(jpg|JPG)$/,'')),single:'pos/osoby/'+f});
+      });
+    } else {
+      const n=rename[p.name]||p.name;
+      list.push(Object.assign({},p,{name:n}));
+    }
+  });
+  return list;
+}
+function renderPositions(){
+  positionsList=buildPosCards();
+  const grid=document.getElementById('pos-grid');
+  if(!positionsList.length){grid.innerHTML='<div class="loading">Позиции не загружены (нужна папка data/ и pos/)</div>';return}
+  grid.innerHTML=positionsList.map((p,idx)=>{
+    if(p.single)return '<div class="pos-card" onclick="openPos('+idx+')"><div class="imgs single"><img src="'+p.single+'" alt="" loading="lazy" onerror="this.style.opacity=.3"></div><div class="name">'+p.name+'</div></div>';
+    const mapSrc=p.map?'pos/'+p.map:'',airSrc=p.air?'pos/'+p.air:'';
+    return '<div class="pos-card" onclick="openPos('+idx+')"><div class="imgs">'+(mapSrc?'<img src="'+mapSrc+'" alt="карта" loading="lazy" onerror="this.style.opacity=.3">':'<div></div>')+(airSrc?'<img src="'+airSrc+'" alt="воздух" loading="lazy" onerror="this.style.opacity=.3">':'<div></div>')+'</div><div class="name">'+p.name+'</div></div>';
+  }).join('');
+}
+function openPos(idx){
+  const p=positionsList[idx];if(!p)return;
+  document.getElementById('modal-title').textContent=p.name;
+  const imgs=document.getElementById('modal-imgs');
+  if(p.single){imgs.className='modal-imgs single';imgs.innerHTML='<img src="'+p.single+'" alt="">'}
+  else{imgs.className='modal-imgs';let h='';if(p.map)h+='<img src="pos/'+p.map+'" alt="Карта">';if(p.air)h+='<img src="pos/'+p.air+'" alt="С вертолёта">';imgs.innerHTML=h}
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+
+function groupArticles(paras){
+  const groups=[];let cur=null;
+  paras.forEach(t=>{
+    if(/^(Статья\s+\d|Глава\s+[IVX\d]|Раздел\s+[IVX\d]|ГЛАВА|РАЗДЕЛ)/i.test(t)||/^Статья\s+\d/i.test(t)){
+      if(cur)groups.push(cur);cur={title:t.slice(0,140),body:[]}
+    } else if(cur){cur.body.push(t)}
+    else{if(!groups.length||groups[0].title!=='Преамбула / Введение')groups.unshift({title:'Преамбула / Введение',body:[]});groups[0].body.push(t)}
+  });
+  if(cur)groups.push(cur);return groups;
+}
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+const codeCache={};
+function renderCode(key,data){
+  const el=document.getElementById(key+'-content');
+  if(!el||!data){if(el)el.innerHTML='<div class="loading">Данные не загружены</div>';return}
+  if(codeCache[key]&&!el.dataset.filtered)return;
+  const groups=groupArticles(data);codeCache[key]=groups;
+  el.innerHTML=groups.map(g=>'<div class="acc-item"><div class="acc-head" onclick="this.parentElement.classList.toggle(\'open\')"><span>'+escapeHtml(g.title)+'</span><span class="arrow">▶</span></div><div class="acc-body">'+escapeHtml(g.body.join('\n\n'))+'</div></div>').join('');
+}
+function filterCode(key,q){
+  const el=document.getElementById(key+'-content'),data=window['CODE_'+key.toUpperCase()];
+  if(!data||!el)return;q=(q||'').trim().toLowerCase();
+  if(!q){el.dataset.filtered='';codeCache[key]=null;renderCode(key,data);return}
+  el.dataset.filtered='1';
+  const filtered=groupArticles(data).filter(g=>g.title.toLowerCase().includes(q)||g.body.some(b=>b.toLowerCase().includes(q)));
+  el.innerHTML=filtered.length?filtered.map(g=>'<div class="acc-item open"><div class="acc-head" onclick="this.parentElement.classList.toggle(\'open\')"><span>'+escapeHtml(g.title)+'</span><span class="arrow">▶</span></div><div class="acc-body">'+escapeHtml(g.body.join('\n\n'))+'</div></div>').join(''):'<div class="loading">Ничего не найдено</div>';
+}
+let currentUstav='vnutr';
+const ustavMap={vnutr:'CODE_VNUTR',disc:'CODE_DISC',karaul:'CODE_KARAUL'};
+function showUstav(key){
+  currentUstav=key;
+  document.querySelectorAll('#ustav-nav a').forEach(a=>a.classList.toggle('active',a.dataset.ustav===key));
+  const data=window[ustavMap[key]],el=document.getElementById('ustav-content');
+  if(!data){el.innerHTML='<div class="loading">Данные не загружены</div>';return}
+  el.innerHTML=groupArticles(data).map(g=>'<div class="acc-item"><div class="acc-head" onclick="this.parentElement.classList.toggle(\'open\')"><span>'+escapeHtml(g.title)+'</span><span class="arrow">▶</span></div><div class="acc-body">'+escapeHtml(g.body.join('\n\n'))+'</div></div>').join('');
+}
+function filterUstav(q){
+  const data=window[ustavMap[currentUstav]];if(!data)return;q=(q||'').trim().toLowerCase();
+  const el=document.getElementById('ustav-content');
+  if(!q){showUstav(currentUstav);return}
+  const filtered=groupArticles(data).filter(g=>g.title.toLowerCase().includes(q)||g.body.some(b=>b.toLowerCase().includes(q)));
+  el.innerHTML=filtered.length?filtered.map(g=>'<div class="acc-item open"><div class="acc-head" onclick="this.parentElement.classList.toggle(\'open\')"><span>'+escapeHtml(g.title)+'</span><span class="arrow">▶</span></div><div class="acc-body">'+escapeHtml(g.body.join('\n\n'))+'</div></div>').join(''):'<div class="loading">Ничего не найдено</div>';
+}
+const searchIndex=[];
+function buildSearchIndex(){
+  positionsList.forEach(p=>searchIndex.push({type:'Позиция',title:p.name,sec:'positions'}));
+  ['поставка','патруль','баллы','ранг','повышение','инструктор'].forEach(k=>searchIndex.push({type:'Ранги',title:k,sec:'ranks'}));
+  ['пик','хевик','тепловизор','броник'].forEach(k=>searchIndex.push({type:'Файт',title:k,sec:'fight'}));
+  ['лётный','лицензия'].forEach(k=>searchIndex.push({type:'Лётный',title:k,sec:'flight-exam'}));
+  ['уголовный','статья','вина'].forEach(k=>searchIndex.push({type:'УК',title:k,sec:'uk'}));
+  ['этический'].forEach(k=>searchIndex.push({type:'Этика',title:k,sec:'ethical'}));
+  ['трудовой','договор'].forEach(k=>searchIndex.push({type:'ТК',title:k,sec:'labor'}));
+  ['административн','штраф'].forEach(k=>searchIndex.push({type:'АК',title:k,sec:'admin'}));
+  ['устав','выговор','караул','дисциплин'].forEach(k=>searchIndex.push({type:'Устав',title:k,sec:'ustav'}));
+  ['commander','instructor','обязанности'].forEach(k=>searchIndex.push({type:'Иерархия',title:k,sec:'hierarchy'}));
+  ['конфиг','вертолёт'].forEach(k=>searchIndex.push({type:'Полезное',title:k,sec:'useful'}));
+}
+const searchInput=document.getElementById('global-search'),searchResults=document.getElementById('search-results');
+searchInput.addEventListener('input',()=>{
+  const q=searchInput.value.trim().toLowerCase();
+  if(q.length<1){searchResults.style.display='none';return}
+  const hits=searchIndex.filter(i=>i.title.toLowerCase().includes(q)).slice(0,14);
+  searchResults.innerHTML=hits.length?hits.map(h=>'<div class="sr-item" data-sec="'+h.sec+'"><span class="sr-tag">'+h.type+'</span><span>'+h.title+'</span></div>').join(''):'<div class="sr-item" style="color:var(--muted)">Ничего не найдено</div>';
+  searchResults.style.display='block';
+});
+searchResults.addEventListener('click',e=>{
+  const item=e.target.closest('.sr-item');if(!item||!item.dataset.sec)return;
+  showSection(item.dataset.sec);searchResults.style.display='none';searchInput.value='';
+});
+document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))searchResults.style.display='none'});
+renderPositions();buildSearchIndex();
+</script>
+</body>
+</html>

@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USAF — United States Air Force | San-Andreas National Guard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a120e;
+  --bg2: #0f2a1a;
+  --bg3: #1a3c2a;
+  --card: #12241a;
+  --border: #2a4a35;
+  --gold: #c9a227;
+  --gold2: #8b9a6b;
+  --text: #e8f0e8;
+  --muted: #8fa88f;
+  --accent: #3d7a4f;
+  --danger: #a33;
+  --radius: 6px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+  font-size: 14px;
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(26,60,42,0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(15,42,26,0.5) 0%, transparent 40%);
+  min-height: 100vh;
+}
+h1,h2,h3,h4 { font-family: 'Oswald', sans-serif; letter-spacing: 0.04em; font-weight: 600; }
+a { color: var(--gold); text-decoration: none; }
+a:hover { color: #e0c050; }
+
+/* HEADER */
+.header {
+  position: sticky; top: 0; z-index: 1000;
+  background: linear-gradient(180deg, #0d1f15 0%, #0a160f 100%);
+  border-bottom: 2px solid var(--gold);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+}
+.header-top {
+  display: flex; align-items: center; gap: 16px;
+  padding: 10px 20px; max-width: 1400px; margin: 0 auto;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700;
+  color: var(--gold); white-space: nowrap; flex-shrink: 0;
+}
+.logo svg { width: 36px; height: 36px; fill: var(--gold); }
+.search-wrap { flex: 1; position: relative; }
+.search-wrap input {
+  width: 100%; padding: 10px 16px 10px 42px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); color: var(--text);
+  font-size: 14px; outline: none; transition: border .2s;
+}
+.search-wrap input:focus { border-color: var(--gold); }
+.search-wrap input::placeholder { color: var(--muted); }
+.search-icon {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  color: var(--muted); pointer-events: none;
+}
+#search-results {
+  display: none; position: absolute; top: 100%; left: 0; right: 0;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); max-height: 360px; overflow-y: auto;
+  z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+#search-results .sr-item {
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  cursor: pointer; display: flex; gap: 10px; align-items: center;
+}
+#search-results .sr-item:hover { background: var(--bg3); }
+#search-results .sr-tag {
+  font-size: 11px; background: var(--bg2); color: var(--gold2);
+  padding: 2px 6px; border-radius: 3px; flex-shrink: 0;
+}
+
+/* NAV */
+.nav {
+  display: flex; flex-wrap: wrap; gap: 2px;
+  padding: 0 20px 8px; max-width: 1400px; margin: 0 auto;
+  overflow-x: auto;
+}
+.nav a {
+  padding: 6px 12px; font-size: 12px; font-weight: 600;
+  color: var(--muted); border-radius: 4px; white-space: nowrap;
+  text-transform: uppercase; letter-spacing: 0.03em;
+  transition: all .15s;
+}
+.nav a:hover, .nav a.active {
+  background: var(--bg3); color: var(--gold);
+}
+
+/* MAIN */
+.main { max-width: 1400px; margin: 0 auto; padding: 20px; }
+.section { display: none; animation: fadeIn .25s ease; }
+.section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.section-title {
+  font-size: 22px; color: var(--gold); margin-bottom: 16px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+.section-title::before {
+  content: ''; width: 4px; height: 22px; background: var(--gold); border-radius: 2px;
+}
+
+/* HOME */
+.home-grid {
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 20px;
+}
+@media (max-width: 900px) { .home-grid { grid-template-columns: 1fr; } }
+.gallery {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  position: relative; min-height: 380px;
+}
+.gallery img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  position: absolute; inset: 0; opacity: 0; transition: opacity .6s;
+}
+.gallery img.active { opacity: 1; }
+.gallery-dots {
+  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 6px; z-index: 2;
+}
+.gallery-dots span {
+  width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3);
+  cursor: pointer;
+}
+.gallery-dots span.active { background: var(--gold); }
+.home-right {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.motto {
+  font-family: 'Oswald', sans-serif; font-size: 20px; color: var(--gold);
+  text-align: center; letter-spacing: 0.08em;
+}
+.hymn-box {
+  background: var(--bg2); border-left: 3px solid var(--gold);
+  padding: 12px 14px; font-size: 13px; color: var(--muted);
+  max-height: 220px; overflow-y: auto; line-height: 1.5;
+}
+.desc-box {
+  font-size: 13px; color: var(--text); border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+.audio-player { margin-top: 8px; }
+.audio-player audio { width: 100%; height: 32px; }
+
+/* CARDS GRID */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+.pos-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  cursor: pointer; transition: all .2s;
+  display: flex; flex-direction: column;
+}
+.pos-card:hover {
+  border-color: var(--gold); box-shadow: 0 0 16px rgba(201,162,39,0.25);
+  transform: translateY(-2px);
+}
+.pos-card .imgs {
+  display: grid; grid-template-columns: 1fr 1fr; height: 110px;
+}
+.pos-card .imgs img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.pos-card .name {
+  padding: 10px 12px; font-family: 'Oswald', sans-serif;
+  font-size: 15px; font-weight: 600; text-align: center;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.3));
+  color: var(--text);
+}
+
+/* MODAL */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 2000;
+  background: rgba(0,0,0,0.85); align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--card); border: 1px solid var(--gold);
+  border-radius: 8px; max-width: 900px; width: 100%;
+  max-height: 90vh; overflow-y: auto; position: relative;
+}
+.modal-close {
+  position: absolute; top: 10px; right: 14px; font-size: 28px;
+  color: var(--muted); cursor: pointer; z-index: 2; line-height: 1;
+}
+.modal-close:hover { color: var(--gold); }
+.modal-title {
+  padding: 16px 20px 10px; font-size: 20px; color: var(--gold);
+  border-bottom: 1px solid var(--border);
+}
+.modal-imgs {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px;
+}
+.modal-imgs img { width: 100%; height: auto; max-height: 420px; object-fit: contain; background: #000; }
+@media (max-width: 700px) {
+  .modal-imgs { grid-template-columns: 1fr; }
+  .pos-card .imgs { height: 90px; }
+}
+
+/* TABLES */
+.table-wrap { overflow-x: auto; margin-bottom: 16px; }
+table {
+  width: 100%; border-collapse: collapse; font-size: 13px;
+}
+th, td {
+  padding: 8px 12px; border: 1px solid var(--border); text-align: left;
+}
+th {
+  background: var(--bg3); color: var(--gold);
+  font-family: 'Oswald', sans-serif; font-weight: 500;
+  text-transform: uppercase; font-size: 12px; letter-spacing: 0.04em;
+}
+tr:nth-child(even) { background: rgba(26,60,42,0.25); }
+tr:hover { background: rgba(26,60,42,0.4); }
+
+/* INFO BLOCKS */
+.info-block {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px 16px; margin-bottom: 12px;
+}
+.info-block h3 {
+  color: var(--gold); font-size: 15px; margin-bottom: 8px;
+}
+.info-block ul, .info-block ol { padding-left: 18px; }
+.info-block li { margin-bottom: 4px; }
+.badge {
+  display: inline-block; padding: 2px 8px; border-radius: 3px;
+  font-size: 11px; font-weight: 600; margin-right: 4px;
+}
+.badge-gold { background: rgba(201,162,39,0.2); color: var(--gold); border: 1px solid var(--gold); }
+.badge-green { background: rgba(61,122,79,0.25); color: #7dba90; border: 1px solid var(--accent); }
+.badge-red { background: rgba(170,50,50,0.25); color: #e88; border: 1px solid #a33; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 800px) { .two-col { grid-template-columns: 1fr; } }
+
+/* ACCORDION */
+.acc-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 6px; overflow: hidden; }
+.acc-head {
+  padding: 10px 14px; background: var(--bg2); cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  font-weight: 600; font-size: 13px; transition: background .15s;
+}
+.acc-head:hover { background: var(--bg3); }
+.acc-head .arrow { color: var(--gold); transition: transform .2s; font-size: 12px; }
+.acc-item.open .acc-head .arrow { transform: rotate(90deg); }
+.acc-body {
+  display: none; padding: 12px 14px; background: var(--card);
+  font-size: 13px; border-top: 1px solid var(--border);
+}
+.acc-item.open .acc-body { display: block; }
+.acc-body p { margin-bottom: 6px; }
+.acc-body .part { color: var(--gold2); font-weight: 600; margin-top: 8px; }
+
+/* POINTS LIST */
+.points-list {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px;
+}
+.point-item {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 4px; padding: 8px 12px; font-size: 13px;
+  text-align: center; font-weight: 500;
+}
+
+/* RULES */
+.rule-card {
+  background: var(--card); border-left: 3px solid var(--gold);
+  padding: 12px 14px; margin-bottom: 10px; border-radius: 0 var(--radius) var(--radius) 0;
+}
+.rule-card h4 { color: var(--gold); margin-bottom: 4px; font-size: 14px; }
+
+/* FOOTER */
+.footer {
+  margin-top: 40px; padding: 20px; text-align: center;
+  border-top: 1px solid var(--border); color: var(--muted);
+  font-size: 12px; letter-spacing: 0.05em;
+}
+.footer strong { color: var(--gold); }
+
+/* RANK TABLE special */
+.rank-note {
+  background: rgba(201,162,39,0.08); border: 1px solid rgba(201,162,39,0.3);
+  padding: 10px 14px; border-radius: var(--radius); margin-bottom: 14px;
+  font-size: 13px;
+}
+
+/* UK navigation */
+.uk-nav {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px;
+}
+.uk-nav a {
+  padding: 5px 10px; background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 4px; font-size: 12px; color: var(--muted);
+}
+.uk-nav a:hover { border-color: var(--gold); color: var(--gold); }
+
+.warning {
+  background: rgba(170,50,50,0.15); border: 1px solid #a33;
+  padding: 10px 14px; border-radius: var(--radius); margin: 10px 0;
+  color: #eaa;
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-top">
+    <div class="logo">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M32 4 L36 20 L52 16 L40 28 L56 36 L38 36 L36 52 L32 40 L28 52 L26 36 L8 36 L24 28 L12 16 L28 20 Z"/></svg>
+      USAF
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="search" id="global-search" placeholder="Поиск по статьям УК, позициям, уставам, рангам..." autocomplete="off">
+      <div id="search-results"></div>
+    </div>
+  </div>
+  <nav class="nav" id="main-nav">
+    <a href="#home" data-sec="home" class="active">Главная</a>
+    <a href="#positions" data-sec="positions">Позиции на поставке</a>
+    <a href="#ranks" data-sec="ranks">Система повышения</a>
+    <a href="#flight-exam" data-sec="flight-exam">Лётный экзамен</a>
+    <a href="#territory" data-sec="territory">Экзамен по территории</a>
+    <a href="#fight" data-sec="fight">Правила файта</a>
+    <a href="#uk" data-sec="uk">Уголовный кодекс</a>
+    <a href="#ustav" data-sec="ustav">Уставы SANG</a>
+    <a href="#hierarchy" data-sec="hierarchy">Обязанности</a>
+    <a href="#useful" data-sec="useful">Полезное</a>
+  </nav>
+</header>
+
+<main class="main">
+
+<!-- ===== HOME ===== -->
+<section id="home" class="section active">
+  <div class="home-grid">
+    <div class="gallery" id="gallery">
+      <img src="assets/poster.png" class="active" alt="USAF">
+      <div class="gallery-dots"><span class="active"></span></div>
+    </div>
+    <div class="home-right">
+      <div class="motto">AIM HIGH. FLY-FIGHT-WIN</div>
+      <div class="hymn-box" id="hymn-text">
+        <strong style="color:var(--gold)">Гимн USAF</strong><br><br>
+        На позициях смотрим сверху, где-то тяга особо чистые, пока тихо.<br>
+        Вертики зафулены, все на ангар один стояли, теперь в небе ЮВСАЭ вовсегда на скауте.<br>
+        Вертики в небе, кол все на ангар один, скаут над Кета.<br>
+        Край мне игру пойзя, холп прозвучал, вертики жутут топливо.<br>
+        Ангар один полный, винты уже воют.<br>
+        Слетаем пачкой, режем небо над ФС, скаутим дорогу и видим костер.<br>
+        Край поставил костер прямо на трассе в рацию орём.<br>
+        Сверху заходим поливать. Каем огнём, каем разъёбан, материалы прошли...<br>
+        Когда костёр зажигают по-настоящему, санги все вместе уходят в респ, а краем забирает то, что хотел.<br>
+        Вертики в небе, холпсен на ангар один, скаут над гета, костёр уже вижу.
+      </div>
+      <div class="audio-player">
+        <audio controls src="assets/hymn.mp3"></audio>
+      </div>
+      <div class="desc-box">
+        <strong style="color:var(--gold)">United States Air Force</strong> — элитное авиационное подразделение San-Andreas National Guard.
+        Отвечает за воздушное превосходство, поддержку поставок, разведку и быстрое реагирование.
+        Готовность. Точность. Превосходство.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== POSITIONS ===== -->
+<section id="positions" class="section">
+  <h2 class="section-title">Позиции на поставке</h2>
+  <p style="margin-bottom:14px;color:var(--muted)">Все ключевые точки. Клик — увеличенные фото (карта сверху + вид с вертолёта).</p>
+  <div class="cards-grid" id="pos-grid"></div>
+</section>
+
+<!-- ===== RANKS ===== -->
+<section id="ranks" class="section">
+  <h2 class="section-title">Система повышения и ранги</h2>
+  
+  <div class="rank-note">
+    <strong>ВАЖНО:</strong> Баллы сгорают после повышения · Повышение — 1 раз в сутки · В отчёте минимум 30% поставок · Остаток баллов не переносится · С 4 на 5 — обязательно ссылка на внутренний экзамен
+  </div>
+
+  <div class="info-block">
+    <h3>Таблица рангов</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Текущий → Новый</th><th>Баллы</th><th>Условия</th></tr></thead>
+        <tbody>
+          <tr><td>3 → 4</td><td>200</td><td>+ сдача внутреннего экзамена по стрельбе</td></tr>
+          <tr><td>4 → 5</td><td>250</td><td>+ сдача внутреннего экзамена</td></tr>
+          <tr><td>5 → 6</td><td>300</td><td>—</td></tr>
+          <tr><td>6 → 7</td><td>350</td><td>—</td></tr>
+          <tr><td>7 → 8</td><td>400</td><td>—</td></tr>
+          <tr><td>8 → 9</td><td>450</td><td>—</td></tr>
+          <tr><td>9 → 10</td><td>500</td><td>—</td></tr>
+          <tr><td>10 → 11</td><td>на усмотрение</td><td>+ обзвон на должность (есть исключения)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="info-block">
+      <h3>Основные действия (баллы)</h3>
+      <ul>
+        <li><span class="badge badge-gold">25</span> Поставка <small>(скрин «Поставка завершена»)</small></li>
+        <li><span class="badge badge-gold">75</span> Дельная идея для отдела</li>
+        <li><span class="badge badge-gold">30</span> Патрулирование / 1 час <small>(скрины каждые 30 мин)</small></li>
+        <li><span class="badge badge-gold">10</span> Отбитие бизнеса <small>(зелёный баннер)</small></li>
+        <li><span class="badge badge-gold">15</span> Участие на тренировку (ГГ)</li>
+        <li><span class="badge badge-gold">15</span> ОКП / ОФЗ участие</li>
+        <li><span class="badge badge-gold">30</span> ОКП / ОФЗ отбитие</li>
+        <li><span class="badge badge-gold">30</span> Отбитие перекрытия во время поставки</li>
+        <li><span class="badge badge-gold">25</span> Участие в любое МП</li>
+      </ul>
+    </div>
+    <div class="info-block">
+      <h3>Баллы для инструкторов</h3>
+      <ul>
+        <li><span class="badge badge-green">15</span> Проверка отчёта на повышение</li>
+        <li><span class="badge badge-green">40</span> Проведение активностей (от 5 чел.)</li>
+        <li><span class="badge badge-green">50</span> Комплектование отдела (за 1 чел.)</li>
+        <li><span class="badge badge-green">30</span> Проведение внутреннего экзамена (лётный / стрельба)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FLIGHT EXAM ===== -->
+<section id="flight-exam" class="section">
+  <h2 class="section-title">Лётный экзамен</h2>
+  <div class="info-block">
+    <h3>Время на маршрут</h3>
+    <ul>
+      <li><strong>13 минут</strong> — сдача в открытом dimension</li>
+      <li><strong>15 минут</strong> — сдача через тест-драйв</li>
+    </ul>
+  </div>
+  <div class="info-block">
+    <h3>Правила</h3>
+    <ul>
+      <li>Разрешены касания вертолётом из-за сложности маршрута</li>
+      <li>Если вертолёт начинает <strong>дымиться или взрывается</strong> — экзамен аннулирован</li>
+      <li>КД на следующую попытку: <strong>12 часов</strong></li>
+      <li>Запись: ⁠╏🚁・запись-на-летный-экзамен</li>
+    </ul>
+    <div class="warning">Подготовьтесь заранее. После сдачи — летная лицензия и разрешение на использование лётной техники.</div>
+  </div>
+  <div class="info-block">
+    <h3>Что требуется уметь</h3>
+    <ul>
+      <li>Приёмы поворота летательного средства</li>
+      <li>Пролёт в узких местах (под мостами и т.п.)</li>
+      <li>Мягкий взлёт и приземление</li>
+      <li>Маневрирование</li>
+      <li>Навык экстренного торможения</li>
+      <li>Теоретическая часть (по желанию экзаменатора)</li>
+    </ul>
+  </div>
+  <div class="info-block">
+    <h3>Видео-пример маршрута</h3>
+    <p><a href="https://youtu.be/JCKOfohqLew?si=AaayzvO_c6bTgkJu" target="_blank" rel="noopener">▶ Смотреть на YouTube</a></p>
+  </div>
+</section>
+
+<!-- ===== TERRITORY ===== -->
+<section id="territory" class="section">
+  <h2 class="section-title">Внутренний экзамен по территории</h2>
+  <p style="margin-bottom:12px;color:var(--muted)">Всему составу и действующим пилотам необходимо знать ключевые точки, где чаще всего происходят нападения на колонны и перекрытия.</p>
+  <div class="points-list" id="territory-points"></div>
+</section>
+
+<!-- ===== FIGHT RULES ===== -->
+<section id="fight" class="section">
+  <h2 class="section-title">Правила файта и стрельбы</h2>
+  <div class="rule-card"><h4>1. Правило пика правым плечом</h4><p>Пик всегда правым плечом — базовое правило боя.</p></div>
+  <div class="rule-card"><h4>2. CTRL + бинд</h4><p>Использовать правило пика с CTRL + бинд в настройках для точного позиционирования.</p></div>
+  <div class="rule-card"><h4>3. Выбор оружия</h4><p>Правильный выбор оружия под цели конкретной операции.</p></div>
+  <div class="rule-card"><h4>4. Запрещённый Хевик</h4><p><span class="badge badge-red">ЗАПРЕЩЁН</span> Хевик на всех мероприятиях и при нападении на КО.</p></div>
+  <div class="rule-card"><h4>5. Оборона ФЗ и острова</h4><p><span class="badge badge-red">ЗАПРЕЩЁН</span> тепловизор при обороне Форт-Занкудо и острова.</p></div>
+  <div class="rule-card"><h4>6. Стрельба на поставках</h4><p>Пока едет матка — никто не останавливается и не выходит из машин. Действия только по коллу старшего состава. Машины ставятся <strong>боком</strong> — создавая укрытие.</p></div>
+  <div class="rule-card"><h4>7. Свап броника</h4><p>Правильный свап: бинт + броник.</p></div>
+  <div class="info-block" style="margin-top:14px">
+    <h3>После объяснения</h3>
+    <p>После того как сотрудник объяснил всё вышеперечисленное — создаёте ветку под запросом и пишете: <strong>«Сдал экзамен по стрельбе.»</strong></p>
+  </div>
+</section>
+
+<!-- ===== UK ===== -->
+<section id="uk" class="section">
+  <h2 class="section-title">Уголовный кодекс штата San-Andreas</h2>
+  <div class="uk-nav">
+    <a href="#uk-obshaya">Общая часть</a>
+    <a href="#uk-prestuplenie">Преступление</a>
+    <a href="#uk-neokonchennoe">Неоконченное / Соучастие</a>
+  </div>
+
+  <div id="uk-obshaya" class="info-block">
+    <h3>Раздел I. Уголовный закон</h3>
+    
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)">Статья 1. Уголовное законодательство Штата San-Andreas <span class="arrow">▶</span></div>
+      <div class="acc-body">
+        <p class="part">ч. 1</p><p>Уголовное законодательство Штата San-Andreas состоит из настоящего Кодекса. Новые законы, предусматривающие уголовную ответственность, подлежат включению в настоящий Кодекс.</p>
+        <p class="part">ч. 2</p><p>Настоящий Кодекс основывается на Конституции Штата San-Andreas и общепризнанных принципах и нормах международного права.</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)">Статья 1.1. Задачи Уголовного кодекса <span class="arrow">▶</span></div>
+      <div class="acc-body">
+        <p class="part">ч. 1</p><p>Задачами Кодекса являются: охрана прав и свобод человека и гражданина, собственности, общественного порядка и общественной безопасности, окружающей среды, конституционного строя от преступных посягательств, обеспечение мира и безопасности человечества, а также предупреждение преступлений.</p>
+        <p class="part">ч. 2</p><p>Кодекс устанавливает основание и принципы уголовной ответственности, определяет преступления и виды наказаний.</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)">Статья 1.2. Принцип законности <span class="arrow">▶</span></div>
+      <div class="acc-body">
+        <p class="part">ч. 1</p><p>Преступность деяния, его наказуемость и иные уголовно-правовые последствия определяются только настоящим Кодексом.</p>
+        <p class="part">ч. 2</p><p>Применение уголовного закона по аналогии не допускается.</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)">Статья 1.3. Принцип равенства граждан перед законом <span class="arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Лица, совершившие преступления, равны перед законом независимо от пола, расы, национальности, языка, происхождения, имущественного и должностного положения, места жительства, отношения к религии, убеждений и других обстоятельств.</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)">Статья 1.4. Принцип вины <span class="arrow">▶</span></div>
+      <div class="acc-body">
+        <p class="part">ч. 1</p><p>Лицо подлежит уголовной ответственности только за те общественно опасные действия (бездействие) и последствия, в отношении которых установлена его вина.</p>
+        <p class="part">ч. 2</p><p>Объективное вменение не допускается.</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)">Статья 1.5. Принцип справедливости <span class="arrow">▶</span></div>
+      <div class="acc-body">
+        <p class="part">ч. 1</p><p>Наказание должно соответствовать характеру и степени общественной опасности преступления, обстоятельствам его совершения и личности виновного.</p>
+        <p class="part">ч. 2</p><p>Никто не может нести уголовную ответственность дважды за одно и то же преступление.</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)">Статья 1.6. Принцип гуманизма <span class="arrow">▶</span></div>
+      <div class="acc-body">
+        <p class="part">ч. 1</p><p>Уголовное законодательство обеспечивает безопасность человека.</p>
+        <p class="part">ч. 2</p><p>Наказание не может иметь целью причинение физических страданий или унижение человеческого достоинства.</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)">Статья 1.7–1.11. Основание ответственности, состав, судимость, действие во времени <span class="arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Ст. 1.7</strong> — Основание уголовной ответственности: совершение деяния, содержащего все признаки состава преступления.</p>
+        <p><strong>Ст. 1.8</strong> — Состав преступления: объект, субъект, объективная и субъективная стороны. Виды: материальные, формальные, усеченные.</p>
+        <p><strong>Ст. 1.9</strong> — Судимость: правовой статус с момента назначения наказания до погашения/снятия. При штрафе судимость не возникает. Запрет на госслужбу.</p>
+        <p><strong>Ст. 1.10</strong> — Действие во времени: закон, действовавший во время совершения деяния.</p>
+        <p><strong>Ст. 1.11</strong> — Обратная сила: улучшающий закон имеет обратную силу, ухудшающий — нет.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="uk-prestuplenie" class="info-block">
+    <h3>Раздел II. Преступление</h3>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)">Статья 2. Понятие преступления <span class="arrow">▶</span></div>
+      <div class="acc-body">
+        <p class="part">ч. 1</p><p>Преступлением признается виновно совершенное общественно опасное деяние, запрещенное Кодексом под угрозой наказания.</p>
+        <p class="part">ч. 2</p><p>Не является преступлением деяние, хотя формально содержащее признаки, но в силу малозначительности не представляющее общественной опасности.</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)">Статья 2.1. Рецидив <span class="arrow">▶</span></div>
+      <div class="acc-body"><p>Совершение умышленного преступления лицом, имеющим судимость за ранее совершенное умышленное преступление. Влечёт более строгое наказание.</p></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)">Статья 2.2–2.6. Формы вины <span class="arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Умысел</strong> — прямой (желал) и косвенный (допускал / относился безразлично).</p>
+        <p><strong>Неосторожность</strong> — легкомыслие (рассчитывал предотвратить) и небрежность (должен был и мог предвидеть).</p>
+        <p><strong>Невиновное причинение</strong> — не осознавал и не мог осознавать, либо не мог предотвратить из-за экстремальных условий.</p>
+        <p><strong>Две формы вины</strong> — умышленное деяние + неосторожные тяжкие последствия = в целом умысел.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="uk-neokonchennoe" class="info-block">
+    <h3>Глава III. Неоконченное преступление и соучастие</h3>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)">Статья 3–3.2. Оконченное / неоконченное, приготовление, покушение, добровольный отказ <span class="arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Оконченное</strong> — все признаки состава налицо.</p>
+        <p><strong>Приготовление</strong> — приискание средств, соучастников, создание условий.</p>
+        <p><strong>Покушение</strong> — умышленные действия, непосредственно направленные на преступление, не доведённые до конца по независящим обстоятельствам.</p>
+        <p><strong>Добровольный отказ</strong> — прекращение приготовления/действий при осознании возможности довести до конца. Освобождает от ответственности (кроме фактически совершённого иного состава).</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)">Статья 3.3–3.5. Соучастие <span class="arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Соучастие</strong> — умышленное совместное участие двух или более лиц в умышленном преступлении.</p>
+        <p><strong>Виды:</strong> исполнитель, организатор, подстрекатель, пособник.</p>
+        <p>Ответственность определяется характером и степенью фактического участия. Организатор/подстрекатель/пособник отвечают со ссылкой на ст. 3.4.</p>
+      </div>
+    </div>
+  </div>
+  <p style="color:var(--muted);font-size:12px;margin-top:10px">Полный текст УК содержится в рабочем документе отдела. Здесь — ключевые статьи Общей части для быстрого доступа.</p>
+</section>
+
+<!-- ===== USTAV ===== -->
+<section id="ustav" class="section">
+  <h2 class="section-title">Уставы San-Andreas National Guard</h2>
+
+  <div class="info-block">
+    <h3>Ключевые запреты (выдержка)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Пункт</th><th>Запрет</th><th>Наказание</th></tr></thead>
+        <tbody>
+          <tr><td>4.6</td><td>Связи с криминальными группировками</td><td>Увольнение + ЧС</td></tr>
+          <tr><td>4.8</td><td>Продажа / передача табельного оружия</td><td>Увольнение + ЧС</td></tr>
+          <tr><td>4.10</td><td>Игнорирование приказов старшего состава</td><td>Строгий выговор</td></tr>
+          <tr><td>4.13</td><td>Огонь по безоружному (без угрозы)</td><td>Строгий выговор</td></tr>
+          <tr><td>4.18</td><td>Разглашение военной тайны</td><td>Увольнение / +ЧС</td></tr>
+          <tr><td>4.19</td><td>Взятие авиатехники без лицензии</td><td>Выговор / Строгий</td></tr>
+          <tr><td>4.25</td><td>Халатность</td><td>Выговор → Увольнение +ЧС</td></tr>
+          <tr><td>4.38</td><td>Использование летной техники без права</td><td>Выговор / Строгий</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="info-block">
+    <h3>Дисциплинарные взыскания</h3>
+    <ul>
+      <li><strong>Устный выговор (1/3)</strong> → <strong>Строгий выговор (2/3)</strong> → <strong>Увольнение / Понижение (3/3)</strong></li>
+      <li>Строгий выговор лишает премий, карьерного роста и увольнительного</li>
+      <li>Все взыскания заносятся в личное дело</li>
+    </ul>
+  </div>
+
+  <div class="info-block">
+    <h3>Субординация и этика</h3>
+    <ul>
+      <li>Обращение к старшему — строго на «Вы»</li>
+      <li>Свободный стиль — только к своему званию и ниже</li>
+      <li>Запрещены ложь, конфликты, оскорбления, неподобающий внешний вид (тату на лице/шее/кистях, неестественный цвет волос и т.п.)</li>
+    </ul>
+  </div>
+
+  <div class="info-block">
+    <h3>Снаряжение</h3>
+    <ul>
+      <li>Обязательна нагрудная камера (облачный сервер National Guard)</li>
+      <li>Тактический пояс / бронежилет — GPS-маячок и кнопка быстрого реагирования</li>
+      <li>Полная экипировка во время службы</li>
+      <li>Приоритет на воздушную технику — у пилотов AF</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== HIERARCHY ===== -->
+<section id="hierarchy" class="section">
+  <h2 class="section-title">Обязанности и иерархия USAF</h2>
+
+  <div class="info-block">
+    <h3>COMMANDER United States Air Force</h3>
+    <ol>
+      <li>Наблюдение и корректирование работы отдела</li>
+      <li>Организация построений личного состава</li>
+      <li>Редактирование работы отдела для улучшения интенсивности (с учётом мнения состава)</li>
+      <li>Контроль конфликтов внутри и между отделами</li>
+      <li>Управление старшим составом отдела</li>
+      <li>Вечернее построение — доклад</li>
+    </ol>
+  </div>
+
+  <div class="info-block">
+    <h3>DEPUTY COMMANDER</h3>
+    <ol>
+      <li>Следить за действиями инструкторов</li>
+      <li>Моментальное реагирование на указания Commander и вопросы</li>
+      <li>Надзорная деятельность за личным составом</li>
+      <li>Проведение мероприятий</li>
+      <li>Помощь инструкторам</li>
+      <li>Контроль соблюдения ВУ, ДУ, УК, АК, ДК, ТК</li>
+      <li>Просмотр заявлений на перевод</li>
+      <li>Проведение внутренних экзаменов</li>
+    </ol>
+  </div>
+
+  <div class="info-block">
+    <h3>INSTRUCTOR</h3>
+    <ol>
+      <li>Проверка отчётов на повышение</li>
+      <li>Проверка заявок в отдел</li>
+      <li>Быстрое реагирование на вопросы сотрудников</li>
+      <li>Проведение мероприятий</li>
+      <li>Помощь основному составу</li>
+      <li>Проведение лётных тренировок и экзаменов</li>
+      <li>Агитация</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===== USEFUL ===== -->
+<section id="useful" class="section">
+  <h2 class="section-title">Полезное</h2>
+
+  <div class="info-block">
+    <h3>Конфиг управления вертолётом</h3>
+    <p>Хороший конфиг позволяет быстрее летать, останавливаться, выполнять манёвры и освобождает одну руку для обзора. Привыкание занимает время — оно того стоит.</p>
+    <p style="color:var(--muted);margin-top:6px">Подробный конфиг смотри в рабочем документе / Discord отдела.</p>
+  </div>
+
+  <div class="info-block">
+    <h3>Каналы и ссылки</h3>
+    <ul>
+      <li>Запись на лётный экзамен: <code>╏🚁・запись-на-летный-экзамен</code></li>
+      <li>Запрос в USAF: <code>╏👥・запрос-в-usaf</code></li>
+      <li>Отчёты на повышение: <code>╏📗・отчёты-на-повышение</code></li>
+      <li>Видео маршрута лётного экзамена: <a href="https://youtu.be/JCKOfohqLew" target="_blank">YouTube</a></li>
+    </ul>
+  </div>
+
+  <div class="info-block">
+    <h3>Принципы USAF</h3>
+    <p style="font-size:15px;color:var(--gold);letter-spacing:0.06em">Честь · Дисциплина · Профессионализм · Ответственность · Верность присяге · Взаимное уважение</p>
+    <p style="margin-top:8px"><strong>AIM HIGH. FLY-FIGHT-WIN</strong><br>Целься выше. Лети — сражайся — побеждай.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <strong>United States Air Force</strong> • San-Andreas National Guard • AIM HIGH. FLY-FIGHT-WIN
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <span class="modal-close" onclick="closeModal()">×</span>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-imgs" id="modal-imgs"></div>
+  </div>
+</div>
+
+<script>
+// ===== NAVIGATION =====
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('#main-nav a');
+
+function showSection(id) {
+  sections.forEach(s => s.classList.remove('active'));
+  navLinks.forEach(a => a.classList.remove('active'));
+  const sec = document.getElementById(id);
+  if (sec) sec.classList.add('active');
+  const link = document.querySelector(`#main-nav a[data-sec="${id}"]`);
+  if (link) link.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+navLinks.forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    showSection(a.dataset.sec);
+  });
+});
+
+// hash support
+if (location.hash) {
+  const id = location.hash.slice(1);
+  if (document.getElementById(id)) showSection(id);
+}
+
+// ===== POSITIONS =====
+const territoryNames = [
+  "5 — Дрифт","7 — ГШ","12 — Аренда","20 — Аренда","1 — АЗС","Ангар УЗИ",
+  "Аренда лодок","Динозаврик","Зелёный мост","Красный мост","Мост ВЗМ","Мост Мара",
+  "Рыбка","Сиськи","ТАТУ-2","ТВ","Тропа ФИБ","Тшка","Церковь-1","Чумаш",
+  "1 — Амфик","2 — Амфик","3 — Церковь","3 — Репаир","9 — ГШ","Буквы","Сэндик","Теплицы","Особы","Каблук","Треугольники"
+];
+
+document.getElementById('territory-points').innerHTML = territoryNames.map(n =>
+  `<div class="point-item">${n}</div>`
+).join('');
+
+let positionsData = [];
+
+async function loadPositions() {
+  try {
+    const res = await fetch('positions.json');
+    positionsData = await res.json();
+  } catch(e) {
+    console.error(e);
+    positionsData = [];
+  }
+  renderPositions(positionsData);
+}
+
+function renderPositions(list) {
+  const grid = document.getElementById('pos-grid');
+  grid.innerHTML = list.map(p => {
+    const mapSrc = p.map ? `positions/${p.map}` : '';
+    const airSrc = p.air ? `positions/${p.air}` : (p.extra && p.extra[0] ? `positions/${p.id}/${p.extra[0]}` : '');
+    return `<div class="pos-card" data-id="${p.id}" onclick="openPos('${p.id}')">
+      <div class="imgs">
+        ${mapSrc ? `<img src="${mapSrc}" alt="карта" loading="lazy">` : '<div style="background:#111"></div>'}
+        ${airSrc ? `<img src="${airSrc}" alt="воздух" loading="lazy">` : '<div style="background:#111"></div>'}
+      </div>
+      <div class="name">${p.name}</div>
+    </div>`;
+  }).join('');
+}
+
+function openPos(id) {
+  const p = positionsData.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('modal-title').textContent = p.name;
+  let html = '';
+  if (p.map) html += `<img src="positions/${p.map}" alt="Карта">`;
+  if (p.air) html += `<img src="positions/${p.air}" alt="С вертолёта">`;
+  if (p.extra) {
+    p.extra.forEach(f => html += `<img src="positions/${p.id}/${f}" alt="">`);
+  }
+  document.getElementById('modal-imgs').innerHTML = html;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+}
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target.id === 'modal') closeModal();
+});
+
+// ===== ACCORDION =====
+function toggleAcc(el) {
+  el.parentElement.classList.toggle('open');
+}
+
+// ===== SEARCH =====
+const searchIndex = [];
+function buildSearchIndex() {
+  // positions
+  positionsData.forEach(p => {
+    searchIndex.push({ type: 'Позиция', title: p.name, sec: 'positions', id: p.id });
+  });
+  // ranks keywords
+  ['поставка','патруль','тренировка','баллы','ранг','повышение','инструктор'].forEach(k =>
+    searchIndex.push({ type: 'Ранги', title: k, sec: 'ranks' })
+  );
+  // territory
+  territoryNames.forEach(n => searchIndex.push({ type: 'Территория', title: n, sec: 'territory' }));
+  // fight
+  ['пик','хевик','тепловизор','броник','поставка','оружие'].forEach(k =>
+    searchIndex.push({ type: 'Файт', title: k, sec: 'fight' })
+  );
+  // uk
+  ['статья 1','принцип законности','вина','рецидив','соучастие','приготовление','покушение'].forEach(k =>
+    searchIndex.push({ type: 'УК', title: k, sec: 'uk' })
+  );
+  // ustav
+  ['выговор','увольнение','субординация','снаряжение','лицензия'].forEach(k =>
+    searchIndex.push({ type: 'Устав', title: k, sec: 'ustav' })
+  );
+  // hierarchy
+  ['commander','deputy','instructor','обязанности'].forEach(k =>
+    searchIndex.push({ type: 'Иерархия', title: k, sec: 'hierarchy' })
+  );
+  // flight
+  ['лётный экзамен','лицензия','маршрут','13 минут'].forEach(k =>
+    searchIndex.push({ type: 'Лётный', title: k, sec: 'flight-exam' })
+  );
+}
+
+const searchInput = document.getElementById('global-search');
+const searchResults = document.getElementById('search-results');
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  if (q.length < 1) { searchResults.style.display = 'none'; return; }
+  const hits = searchIndex.filter(i => i.title.toLowerCase().includes(q)).slice(0, 12);
+  if (!hits.length) {
+    searchResults.innerHTML = '<div class="sr-item" style="color:var(--muted)">Ничего не найдено</div>';
+  } else {
+    searchResults.innerHTML = hits.map(h =>
+      `<div class="sr-item" data-sec="${h.sec}" data-id="${h.id||''}">
+        <span class="sr-tag">${h.type}</span>
+        <span>${h.title}</span>
+      </div>`
+    ).join('');
+  }
+  searchResults.style.display = 'block';
+});
+
+searchResults.addEventListener('click', e => {
+  const item = e.target.closest('.sr-item');
+  if (!item) return;
+  const sec = item.dataset.sec;
+  showSection(sec);
+  if (item.dataset.id && sec === 'positions') {
+    setTimeout(() => openPos(item.dataset.id), 100);
+  }
+  searchResults.style.display = 'none';
+  searchInput.value = '';
+});
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-wrap')) searchResults.style.display = 'none';
+});
+
+// INIT
+loadPositions().then(() => {
+  buildSearchIndex();
+});
+</script>
+</body>
+</html>
